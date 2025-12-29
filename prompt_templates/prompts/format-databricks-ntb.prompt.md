@@ -1,6 +1,6 @@
 ---
-mode: 'agent'
-tools: ['runCommands', 'editFiles', 'search', 'todos', 'usages', 'fetch', 'websearch']
+agent: 'agent'
+tools: ['vscode/runCommand', 'execute', 'read', 'edit', 'search', 'web', 'agent', 'memory', 'ms-vscode.vscode-websearchforcopilot/websearch', 'todo']
 description: 'Convert python script to follow databricks notebook format with markdown cells and code cells.'
 ---
 
