@@ -1,0 +1,3 @@
+Take following code and write module docstring, class docstring and also docstring for each method. Use google docstring conventions, but dont use types inside docstrings as we use typehints.
+
+Write readable and telling information in docstring. When you are at it, you can slightly clean the code and polish the comments. Dont do changes to code structure or logic, just cleaning and making things more readable and up to production standards.
