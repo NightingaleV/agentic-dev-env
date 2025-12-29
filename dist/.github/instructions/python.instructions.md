@@ -1,3 +1,8 @@
+---
+description: 'Python coding conventions and guidelines'
+applyTo: '**/*.py'
+---
+
 ## Python Code Conventions
 
 Your coding should include:
