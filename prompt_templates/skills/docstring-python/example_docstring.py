@@ -25,7 +25,7 @@ Examples:
     **Basic function usage:**
 
     ```py
-    from example import score_signal
+    from example_docstring import score_signal
 
     result = score_signal(value=0.72, threshold=0.5)
     print(result)  # 1.0
@@ -34,7 +34,7 @@ Examples:
     **Class usage:**
 
     ```py
-    from example import SignalScorer
+    from example_docstring import SignalScorer
 
     scorer = SignalScorer(threshold=0.6)
     print(scorer.score(0.72))       # 1.0
@@ -63,12 +63,13 @@ def score_signal(value: float, threshold: float = 0.5) -> float:
         ValueError: If `threshold` is not in the interval [0.0, 1.0].
 
     Examples:
-        >>> score_signal(0.49)
-        0.0
-        >>> score_signal(0.5)
-        1.0
-        >>> score_signal(0.9, threshold=0.95)
-        0.0
+        ```py
+        from example_docstring import score_signal
+
+        print(score_signal(0.49))  # 0.0
+        print(score_signal(0.5))   # 1.0
+        print(score_signal(0.9, threshold=0.95))  # 0.0
+        ```
     """
     if not (0.0 <= threshold <= 1.0):
         raise ValueError("`threshold` must be within [0.0, 1.0].")
@@ -99,19 +100,9 @@ class SignalScorer:
         mkdocstrings can render **Google-style docstrings** and mkdocs-material extensions
         like **admonitions** and **content tabs**. Avoid **nesting admonitions**.
 
-    === "Example"
-        ```py
-        from example import SignalScorer
-
-        scorer = SignalScorer(threshold=0.7)
-        print(scorer.score(0.72))       # 1.0
-        print(scorer.is_positive(0.1))  # False
-        print(scorer.decision_rule)     # value >= 0.7
-        ```
-
     Examples:
         ```py
-        from example import SignalScorer
+        from example_docstring import SignalScorer
 
         scorer = SignalScorer(threshold=0.7)
         print(scorer.score(0.7))        # 1.0
@@ -129,7 +120,7 @@ class SignalScorer:
 
         Examples:
             ```py
-            from example import SignalScorer
+            from example_docstring import SignalScorer
 
             scorer = SignalScorer(threshold=0.0)
             print(scorer.threshold)  # 0.0
@@ -147,7 +138,7 @@ class SignalScorer:
 
         Examples:
             ```py
-            from example import SignalScorer
+            from example_docstring import SignalScorer
 
             scorer = SignalScorer(threshold=0.6)
             print(scorer.decision_rule)  # value >= 0.6
@@ -166,7 +157,7 @@ class SignalScorer:
 
         Examples:
             ```py
-            from example import SignalScorer
+            from example_docstring import SignalScorer
 
             scorer = SignalScorer(threshold=0.8)
             print(scorer.score(0.79))  # 0.0
@@ -186,7 +177,7 @@ class SignalScorer:
 
         Examples:
             ```py
-            from example import SignalScorer
+            from example_docstring import SignalScorer
 
             scorer = SignalScorer(threshold=0.5)
             print(scorer.is_positive(0.49))  # False
@@ -203,7 +194,7 @@ class SignalScorer:
 
         Examples:
             ```py
-            from example import SignalScorer
+            from example_docstring import SignalScorer
 
             scorer = SignalScorer(threshold=0.55)
             print(scorer.summarize())  # SignalScorer(threshold=0.55)
