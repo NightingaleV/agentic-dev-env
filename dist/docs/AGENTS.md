@@ -35,6 +35,7 @@ Suggested baseline (adjust to what already exists):
 - `docs/tutorials/` – learning guides
 - `docs/how_to/` – task recipes
 - `docs/explanation/` – explanations, feature descriptions, architecture, decisions. Should contain nested subfolders properly organizing conceptual content if needed.
+- `docs/examples/` – practical examples and code-based tutorials. Also contains code snippets that may be referenced in other documentation.
 - `docs/api/` – API reference (mkdocstrings). There should be ideally one file per top-level package or module.
 - `docs/assets/` – images, diagrams, small static files
 
@@ -226,12 +227,12 @@ Content tabs to group and organize related content
 
 
 ### For Examples:
-- You can inject the script or include it as a code block with a file reference. Ensure that the example is relevant to the context. The example should be clear, concise, and easy to understand. If the script is long, consider wrapping it in a toggled admonition (`???`) for better visibility.
+- For longer examples. You ideally store them inside `docs/examples/`. You can inject the script or include it as a code block with a file reference. Ensure that the example is relevant to the context. The example should be clear, concise, and easy to understand. If the script is long, consider wrapping it in a toggled admonition (`???`) for better visibility.
   
 ```md
 ??? example "Example: Using Threshold Grid"
     ```python
-    --8<-- "examples/calibration/initial_threshold_setting_with_grid.py"
+    --8<-- "docs/examples/calibration/initial_threshold_setting_with_grid.py"
     ```
 ```
 
