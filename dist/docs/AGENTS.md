@@ -52,7 +52,7 @@ We document using markdown files and syntax. We use the following tools and libr
 - mkdocstring for API docs
 - YAML for configuration files
 - Python for code examples and API docs
-
+- mermaid plugin for diagrams
 
 ---
 
@@ -121,6 +121,24 @@ Guidelines:
 - Prefer active voice.
 - Use consistent terms (don’t rename concepts across pages).
 - Headings should be descriptive (avoid “Misc”, “Other”).
+- Include front matter
+
+### Front Matter
+
+- **Front Matter**: Include the following fields in the YAML front matter:
+  - `title`: The title of the post.
+  - `description`: The URL of the featured image.
+  - `icon`: The icon for the post.
+  - `summary`: A very brief summary of the post. Recommend a summary based on the content when possible.
+
+
+#### Icon Example:
+```md
+---
+icon: material/emoticon-happy 
+---
+```
+
 
 ### Links
 - Prefer **relative links** within docs.
@@ -132,6 +150,7 @@ Guidelines:
 - Wrap lines reasonably (don’t hard-wrap aggressively unless the repo does).
 - Use fenced code blocks with language tags: ```python, ```bash, ```yaml.
 - Use fenced code blocks with language identifiers for all code snippets.
+- Use Mermaid diagrams when appropriate (flowchart, sequenceDiagram, classDiagram, erDiagram).
 - Use headings and subheadings to organize content clearly.
 - Use bullet points or numbered lists for clarity.
 - Use bold or italics to emphasize important points.
