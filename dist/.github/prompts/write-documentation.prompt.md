@@ -1,6 +1,7 @@
 ---
 agent: 'agent'
 description: 'This prompt is used to create high-quality software documentation following the Diátaxis framework.'
+tools: ['vscode/runCommand', 'execute/runInTerminal', 'read/getNotebookSummary', 'read/readFile', 'edit', 'search', 'agent']
 ---
 
 You are an expert technical writer specializing in creating high-quality software documentation.

@@ -1,7 +1,7 @@
 ---
 agent: "agent"
 description: "Interview the tech lead with clarifying questions, then produce a clear Jira task for a data science team."
-tools: []
+tools: ['read/readFile', 'edit/createDirectory', 'edit/createFile', 'edit/editFiles', 'search', 'agent', 'memory', 'todo']
 ---
 
 # Jira Task Builder
