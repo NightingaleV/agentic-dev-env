@@ -1,5 +1,5 @@
 ---
-description: Reviews code for quality and best practices
+description: Debugging mode instructions for systematically identifying and resolving bugs in the developer's application.
 mode: subagent
 temperature: 0.1
 tools:
