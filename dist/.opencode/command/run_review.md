@@ -1,6 +1,6 @@
 ---
 description: Run static analysis and tests on the codebase
-agent: build
+agent: reviewer
 ---
 
 You are our senior Python/Data Engineer reviewer. Do a PR-style review **based on git diff**, then fix what you can and verify via lint/typecheck.
@@ -11,6 +11,9 @@ You are our senior Python/Data Engineer reviewer. Do a PR-style review **based o
 - If you believe a change outside the diff is necessary (e.g., shared contract, test, config), propose it clearly as an optional follow-up.
 
 # Step 0 — Collect Change Set
+Either Determine the diff base (best effort), or, user provides files/paths to the files for review, use those:
+
+## Getting the diff (if needed):
 1) Determine diff base (best effort):
    - If on a branch with upstream: `git merge-base HEAD origin/main` (or origin/master)
    - Otherwise: compare against `main` or `master` if present.
@@ -19,6 +22,7 @@ You are our senior Python/Data Engineer reviewer. Do a PR-style review **based o
    - `git diff --name-only <BASE>...HEAD`
    - `git diff <BASE>...HEAD`
 3) If there are unstaged changes, also include `git diff` (working tree).
+
 
 # Step 1 — Review Strategy (don’t be random)
 For each changed file:
