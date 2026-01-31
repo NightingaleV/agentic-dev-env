@@ -2,7 +2,7 @@
 # This file defines how source files are transformed and distributed to different agent frameworks
 
 # Directory paths (relative to project root)
-templates_dir: src/templates
+templates_dir: src/_templates
 base_dir: src/base
 targets_dir: src/targets
 dist_dir: dist
