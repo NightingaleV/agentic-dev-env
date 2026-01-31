@@ -176,8 +176,14 @@ description: "Guidelines for production-ready code"
 
 ## Template Locations and Paths
 
-### Template Directory
-All templates must be in `/src/templates/` (flat or nested):
+The build system searches for includes in two locations (in order of priority):
+
+1. **`/src/templates/`** - Small, reusable template snippets
+2. **`/src/base/`** - Base content files (prompts, agents, skills, instructions)
+
+### Include from Templates Directory
+
+For small reusable snippets in `/src/templates/`:
 
 ```
 /src/templates/
@@ -187,16 +193,50 @@ All templates must be in `/src/templates/` (flat or nested):
   python_error_handling.md
 ```
 
-### Include Syntax
-Use the filename relative to `/src/templates/`:
+Include using just the filename:
 
 ```markdown
 {% include "python_testing_best_practices.md" %}
 ```
 
-For nested directories (if you create them):
+For nested directories:
 ```markdown
 {% include "python/testing_best_practices.md" %}
+```
+
+### Include from Base Directory
+
+You can also include files from `/src/base/` using the relative path from that directory:
+
+```markdown
+{% include "prompts/write-docstrings.md" %}
+{% include "agents/code-reviewer.md" %}
+{% include "skills/docstring-python/SKILL.md" %}
+```
+
+This is useful when you want to:
+- Create a target-specific file that wraps base content with additions
+- Compose complex prompts from existing base prompts
+- Reuse entire agent/prompt definitions with modifications
+
+### Example: Target Override with Base Include
+
+Create a target-specific prompt that includes and extends base content:
+
+```markdown
+# src/targets/.github/prompts/my-extended-prompt.prompt.md
+---
+description: "Extended prompt with GitHub-specific additions"
+---
+
+# Extended Prompt
+
+## Base Content
+{% include "prompts/write-docstrings.md" %}
+
+## GitHub-Specific Additions
+- Use GitHub Actions for CI/CD
+- Follow GitHub code review conventions
 ```
 
 ## Advanced Usage
@@ -230,7 +270,9 @@ template.render(project_name="my-project", version="1.0.0")
 
 ## How It Works
 
-1. **Template Discovery**: Build script loads all files from `/src/templates/` into Jinja2 environment
+1. **Template Discovery**: Build script configures Jinja2 with two search paths:
+   - `/src/templates/` (first priority - for small reusable snippets)
+   - `/src/base/` (second priority - for including base content)
 
 2. **File Processing**: When processing `.md` files from `/src/base/` or `/src/targets/`:
    - Reads file content
@@ -238,7 +280,13 @@ template.render(project_name="my-project", version="1.0.0")
    - If found, processes through Jinja2 template engine
    - Resolves all `{% include %}` directives recursively
 
-3. **Output**: Writes processed content to `/dist/` with templates fully resolved
+3. **Include Resolution**:
+   - `{% include "file.md" %}` → looks in `/src/templates/file.md` first
+   - If not found, looks in `/src/base/file.md`
+   - `{% include "prompts/file.md" %}` → looks in `/src/templates/prompts/file.md` first
+   - If not found, looks in `/src/base/prompts/file.md`
+
+4. **Output**: Writes processed content to `/dist/` with templates fully resolved
 
 ## Template Guidelines
 
@@ -265,7 +313,12 @@ template.render(project_name="my-project", version="1.0.0")
 ⚠️  Template not found while processing /src/base/prompts/test.md: python_test.md
 ```
 
-**Solution**: Check that template exists in `/src/templates/python_test.md`
+**Solution**: Check that template exists in one of these locations:
+- `/src/templates/python_test.md` (for template snippets)
+- `/src/base/python_test.md` (for base content includes)
+
+For path-based includes like `{% include "prompts/file.md" %}`:
+- Check `/src/templates/prompts/file.md` or `/src/base/prompts/file.md`
 
 ### Template Processing Error
 
