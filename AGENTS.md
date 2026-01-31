@@ -121,13 +121,16 @@ uv sync
    - If both `src/base/prompts/test.md` and `src/targets/.github/prompts/test.prompt.md` exist, the target version wins
    - Target files are already correctly named (no suffix transformation)
 
-3. **Template Resolution**: Any markdown file can include templates:
-   ```markdown
-   # My Prompt
+3. **Template Resolution**: Any markdown file can include content from two locations:
+   - `src/templates/` - small reusable snippets
+   - `src/base/` - existing base content
    
+   ```markdown
+   # Include from templates/
    {% include "python_test_core.md" %}
    
-   Additional content...
+   # Include from base/
+   {% include "prompts/write-docstrings.md" %}
    ```
 
 ### Configuration

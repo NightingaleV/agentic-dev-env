@@ -33,9 +33,17 @@ class BuildSystem:
         self.targets_dir = self.project_root / self.config["targets_dir"]
         self.dist_dir = self.project_root / self.config["dist_dir"]
 
-        # Setup Jinja2 environment
+        # Setup Jinja2 environment with multiple search paths
+        # Priority order: templates/ first, then base/ for including base content
         self.jinja_env = Environment(
-            loader=FileSystemLoader(str(self.templates_dir)),
+            loader=FileSystemLoader(
+                [
+                    str(self.templates_dir),  # src/templates - small reusable templates
+                    str(
+                        self.base_dir
+                    ),  # src/base - allows {% include "prompts/file.md" %}
+                ]
+            ),
             trim_blocks=False,
             lstrip_blocks=False,
             keep_trailing_newline=True,
