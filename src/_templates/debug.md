@@ -1,6 +1,9 @@
-Following is guidance on debugging code issues effectively. Use this structured approach to identify, investigate, and resolve bugs in a systematic manner.
+{%- block frontmatter -%}{%- endblock frontmatter -%}
+{% block action %}
+Debug the code that user/primary agent provides/specifies. Use a structured approach to identify, investigate, and resolve bugs effectively.
 
-Feel free to offload complex research or analysis tasks to appropriate tools/subagents as needed.
+For more complex tasks like research or exploration, offload to subagents that will do research and exploration and come back to you with findings.
+{% endblock %}
 
 ## Phase 1: Problem Assessment
 

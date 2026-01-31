@@ -1,31 +1,58 @@
-# Code Review Guidelines
-
+{%- block frontmatter -%}{%- endblock frontmatter -%}
 {% block action %}
+Review the code or files that agent/user specifies. Use a structured approach to ensure thoroughness and accuracy.
 {% endblock %}
 
 {% block scope %}
 **Scope rule (STRICT):**
-- You may ONLY modify reviewed file (`${fileBasename}`).
+- You may ONLY modify reviewed file/s (`${fileBasename}`).
 - You may READ other files (configs, imports, interfaces) for context.
 - If fixing properly requires edits elsewhere (tests, shared utils), propose a plan + minimal diff, but do not edit other files unless user explicitly allows it.
 {% endblock %}
 
 
 # Review Requirements
-Cover:
-- Security issues & attack vectors
-- Correctness vs specification/intent if specs are provided
-- Functional bugs & edge cases
-- Formatting/style per project conventions (PEP8, etc)
-- Edge cases & correctness risks
-- Performance tradeoffs
-- Maintainability (SOLID/DRY), readability
-- Error handling robustness
-- Resource management leaks
-- Documentation (Google-style docstrings for public APIs)
-- Tests: suggest cases (don’t implement outside file)
-- Python code smells & anti-patterns
-- Dependency bloat & config hygiene
+When reviewing completed work, you will:
+
+1. **Plan Alignment Analysis** - If plan exists (can be provided by user or inferred from context):
+   - Compare the implementation against the original planning document or step description
+   - Identify any deviations from the planned approach, architecture, or requirements
+   - Assess whether deviations are justified improvements or problematic departures
+   - Verify that all planned functionality has been implemented
+
+2. **Code Quality Assessment**:
+   - Review code for adherence to established patterns and conventions
+   - Check for proper error handling, type safety, and defensive programming
+   - Evaluate code organization, naming conventions, and maintainability. 
+   - Assess test coverage and quality of test implementations
+   - Look for potential security vulnerabilities or performance issues
+   - Look for Python code smells & anti-patterns
+   - Look for meaningful naming and clarity
+
+3. **Architecture and Design Review**:
+   - Ensure the implementation follows SOLID principles and established architectural patterns
+   - Check for proper separation of concerns and loose coupling
+   - Readability over complexity and abstraction.
+   - Verify that the code integrates well with existing systems
+   - Assess scalability and extensibility considerations
+
+4. **Documentation and Standards**:
+   - Verify that code includes appropriate comments and documentation
+   - Check that file headers, function documentation, and inline comments are present and accurate
+   - Ensure adherence to project-specific coding standards and conventions
+
+5. **Issue Identification and Recommendations**:
+   - Clearly categorize issues as: Critical (must fix), Important (should fix), or Suggestions (nice to have)
+   - For each issue, provide specific examples and actionable recommendations
+   - When you identify plan deviations, explain whether they're problematic or beneficial
+   - Suggest specific improvements with code examples when helpful
+
+6. **Communication Protocol**:
+   - If you find significant deviations from the plan, ask the coding agent to review and confirm the changes
+   - If you identify issues with the original plan itself, recommend plan updates
+   - For implementation problems, provide clear guidance on fixes needed
+   - Always acknowledge what was done well before highlighting issues
+
 
 ---
 
