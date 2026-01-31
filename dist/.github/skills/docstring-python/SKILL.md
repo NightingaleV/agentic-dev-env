@@ -58,9 +58,62 @@ Include sections only when meaningful:
 - `Returns:`
 - `Raises:`
 - `Attributes:` (classes, when useful)
+- `Methods:` (classes, when useful)
 - `Examples:`
-- `Notes:` (optional)
-- `Warning:` (rare)
+
+## Extended docstring structure
+As we are using mkdocstrings, we can leverage richer formatting:
+- Use **admonitions** for important notes, warnings, tips
+- Use **content tabs** for alternative examples (e.g., sync vs. async)
+
+```py
+"""Fetch historical stock prices for a given ticker symbol.
+
+Abstract: Component Summary
+  This function retrieves historical stock price data from a third-party API
+  for the specified ticker symbol over a defined time period. It returns the data
+  as a pandas DataFrame for easy analysis.
+
+Args:
+  ticker: Stock ticker symbol (e.g., "AAPL").
+  period: Time period to fetch. Defaults to "1y".
+
+Returns:
+  A DataFrame containing historical stock prices.
+
+Note: Requires an active internet connection.
+  The data is fetched from a third-party API. Ensure you handle network errors appropriately.
+
+Tip: API calls limits
+  Free tier allows up to 500 requests per day. Consider caching results to avoid hitting limits.
+
+Question: FAQ
+  Q: **What time zones are the timestamps in?**
+  A: All timestamps are in UTC.
+
+  Q: **Can I fetch intraday data?**
+  A: Yes, set the `period` argument to "1d" or "5
+
+Example:
+  === "Basic usage"
+      ```py
+      from finance import fetch_prices
+
+      df = fetch_prices("AAPL", period="6mo")
+      print(df.head())
+      ```
+  === "Async usage"
+      ```py
+      import asyncio
+      from finance import fetch_prices_async  
+
+      async def main():
+          df = await fetch_prices_async("AAPL", period="6mo")
+          print(df.head())
+      asyncio.run(main())
+      ```
+"""
+```
 
 ## Formatting rules
 - Use triple double quotes: `"""Docstring..."""`

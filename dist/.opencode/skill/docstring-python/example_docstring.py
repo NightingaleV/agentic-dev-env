@@ -1,20 +1,20 @@
 """Example module demonstrating repo docstring conventions (Google style).
 
-!!! note "Description"
+Note: "Description"
     This module is intentionally small but showcases **"gold standard" documentation**:
     - A module docstring with clear purpose + **runnable examples**
     - **Google-style docstrings** for public classes/functions/methods/properties
     - **No repeated types** in docstrings (type hints already exist)
     - mkdocs-material **admonitions** and **content tabs** shown in docstrings (mkdocstrings-friendly)
 
-!!! tip "Practical tip"
+Tip: "Practical tip"
     You can use mkdocs-material **admonitions** and **content tabs** in docstrings! They will be rendered
     correctly by mkdocstrings without nesting issues. Just **avoid nesting admonitions** inside each other.
 
     Use admonitions mainly in the **module** and **class** docstrings to provide additional context, and keep
     **function/method docstrings simple**.
 
-!!! info "mkdocstrings"
+Info: "mkdocstrings"
     You can see how mkdocstrings renders these docstrings in the generated **API reference**
     documentation for this module.
 
@@ -79,24 +79,24 @@ def score_signal(value: float, threshold: float = 0.5) -> float:
 @dataclass(slots=True)
 class SignalScorer:
     """Score values and keep the decision rule in one place.
+    
+    Abstract: "What this class is for"
+        Use a scorer object when you want a **consistent rule** (threshold) applied
+        across many calls and you want a single place to document it.
 
     Attributes:
         threshold: Values greater than or equal to this are treated as positive.
 
-    !!! note "What this class is for"
-        Use a scorer object when you want a **consistent rule** (threshold) applied
-        across many calls and you want a single place to document it.
-
-    !!! tip "Practical tip"
+    Tip: "Practical tip"
         Keep examples **copy-paste runnable** and stable:
         - Prefer **no network calls**
         - Avoid **current-time dependencies**
         - Show outputs as **Python comments**
 
-    !!! warning "Threshold bounds"
+    Warning: "Threshold bounds"
         `threshold` must be within `[0.0, 1.0]`. Invalid values raise `ValueError`.
 
-    !!! info "Docs rendering"
+    Info: "Docs rendering"
         mkdocstrings can render **Google-style docstrings** and mkdocs-material extensions
         like **admonitions** and **content tabs**. Avoid **nesting admonitions**.
 
