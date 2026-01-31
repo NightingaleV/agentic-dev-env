@@ -15,41 +15,40 @@ Perfect for teams building AI-driven development pipelines, particularly for **P
 
 ## What's Inside
 
-### 📋 Prompt Templates (`/prompt_templates`)
+The project uses a source-to-distribution build system:
 
-Reusable prompts organized by type:
+### Source Structure (`/src`)
 
-#### Agents (`/agents`)
-- **debug.agent.md** - Systematic debugging and bug resolution workflows
-- **frontend_developer.agent.md** - Frontend development guidance and best practices
-- **high-lvl-plan.agent.md** - Strategic planning and architecture design
-- **jira-assistant.agent.md** - JIRA integration and issue management
+#### Base Content (`/src/base`)
+Shared content copied to all agent frameworks:
 
-#### Prompts (`/prompts`)
-- **code-review.prompt.md** - Code review guidelines and standards
-- **code-into-tutorial-md.prompt.md** - Convert code snippets into tutorial documentation
-- **create-specification.prompt.md** - Generate concise technical specifications
-- **create-detailed-specification.prompt.md** - Comprehensive specification generation
-- **create-unittest-python.prompt.md** - Python unit test generation
-- **format-databricks-ntb.prompt.md** - Databricks notebook formatting
-- **format-vscode-ntb.prompt.md** - VS Code notebook formatting
-- **write-docstrings.prompt.md** - Generate Python docstrings
-- **write-documentation.prompt.md** - Create technical documentation
+- **agents/** - Agent definitions (code-reviewer, debug, high-lvl-plan, jira-assistant)
+- **prompts/** - Reusable prompts for code review, documentation, specifications, testing
+- **skills/** - Specialized skill modules (docstring-python, brand-guidelines)
+- **instructions/** - GitHub-specific instructions for Python development
 
-#### Skills (`/skills`)
-- **docstring-python/** - Specialized skill for Python docstring generation
-- **brand-guidelines/** - Brand consistency guidelines for generated content
+#### Target-Specific (`/src/targets`)
+Platform-specific overrides and additions:
 
-### 📦 Distribution Package (`/dist`)
+- **.codex/** - Codex-only prompts and customizations
+- **.opencode/** - OpenCode-specific agents and commands
+- **.github/** - GitHub Copilot instructions and configuration
+- **docs/, tests/, .vscode/** - Project documentation and settings
+- **AGENTS.md** - Project overview
 
-Complete scaffolding structure ready for import into other projects:
+#### Templates (`/src/templates`)
+Jinja2 templates for content reuse:
+- **python_test_core.md** - Reusable testing guidelines
 
-- **.codex/** - OpenAI Codex configuration
-- **.github/** - GitHub-specific configurations and prompts
-- **.opencode/** - OpenCode AI settings
-- **.vscode/** - VS Code extension configuration
-- **docs/** - Complete documentation site (MkDocs + mkdocstrings)
-- **tests/** - Testing frameworks and test specifications
+### Distribution Package (`/dist`)
+
+Generated build output ready for import into other projects:
+
+- **.github/** - GitHub Copilot (agents with `.agent.md` suffix, prompts with `.prompt.md`)
+- **.opencode/** - OpenCode AI (singular folders: `skill/`, `agent/`, `command/`)
+- **.codex/** - OpenAI Codex (no suffix transformations)
+- **docs/, tests/, .vscode/** - Documentation and project settings
+- **AGENTS.md** - Project guide
 
 ### 📚 Documentation (`/docs`)
 
@@ -61,7 +60,7 @@ Comprehensive guides covering:
 
 ## Quick Start
 
-### Installation
+### Setup Development Environment
 
 1. **Clone the repository**
    ```bash
@@ -69,29 +68,71 @@ Comprehensive guides covering:
    cd agentic-dev-env
    ```
 
-2. **Copy templates to your project**
+2. **Install dependencies using uv**
    ```bash
-   cp -r dist/ /path/to/your/project/
+   # Install uv if not already installed
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   
+   # Create virtual environment and install dependencies
+   uv venv
+   uv sync
    ```
 
-3. **Configure your AI platform**
-   - For GitHub Copilot: Copy `.vscode/` settings
+3. **Build distribution files**
+   ```bash
+   # Build all targets
+   ./build.sh
+   
+   # Or build specific target
+   ./build.sh --target .github
+   
+   # Clean and rebuild
+   ./build.sh --clean
+   
+   # Advanced: use Python directly
+   uv run python build.py --clean
+   ```
+
+### Using in Your Project
+
+1. **Copy distribution to your project**
+   ```bash
+   # Copy entire dist/ folder
+   cp -r dist/ /path/to/your/project/
+   
+   # Or copy specific target
+   cp -r dist/.github /path/to/your/project/
+   ```
+
+2. **Configure your AI platform**
+   - For GitHub Copilot: Copy `.github/` folder
    - For OpenCode: Copy `.opencode/` configuration
    - For Codex: Copy `.codex/` settings
    - For Warp: Integrate prompts into your Warp configuration
 
-### Using Prompts
+### Working with Templates
 
-1. Select a prompt template from `/prompt_templates`
-2. Customize variables for your use case
-3. Use with your preferred AI platform
-4. Version control your custom prompts
+The project includes a powerful Jinja2 template system for reusing content:
+
+```markdown
+# In your file (src/base/prompts/my-prompt.md)
+{% include "python_test_core.md" %}
+```
+
+This includes shared content from `/src/templates/` into your files. Perfect for:
+- Shared guidelines and best practices
+- Common code style rules
+- Reusable documentation snippets
+
+📖 **[Read the Template Guide](./TEMPLATE_GUIDE.md)** for detailed usage instructions.
 
 ## Key Features
 
 ✅ **Framework-Agnostic** - Works with multiple AI platforms  
 ✅ **Pre-built Workflows** - Debug, code review, documentation, specifications  
 ✅ **Modular Design** - Mix and match prompts and skills  
+✅ **Template System** - Jinja2-powered content reuse across files  
+✅ **Automated Build** - Single command to generate all distributions  
 ✅ **Production Ready** - Tested configurations and best practices  
 ✅ **Well-Documented** - Comprehensive guides and examples  
 ✅ **Python/ML Focused** - Specialized for data science workflows  
@@ -99,7 +140,10 @@ Comprehensive guides covering:
 
 ## Documentation
 
+- **[Quick Reference](./QUICK_REFERENCE.md)** - Cheat sheet for common tasks
 - **[Project Guide](./AGENTS.md)** - Overview and project structure
+- **[Template System Guide](./TEMPLATE_GUIDE.md)** - How to use Jinja2 templates
+- **[Build Configuration](./build_config.yaml)** - Customize build behavior
 - **[Distribution Docs](./dist/docs/)** - Full documentation site
 - **[Examples](./dist/docs/examples/)** - Practical code examples
 
@@ -107,19 +151,38 @@ Comprehensive guides covering:
 
 ```
 agentic-dev-env/
-├── README.md                 # This file
-├── AGENTS.md                 # Project overview & guidelines
-├── prompt_templates/         # Source templates
-│   ├── agents/              # Agent specifications
-│   ├── prompts/             # Standalone prompts
-│   └── skills/              # Reusable skill modules
-└── dist/                    # Distribution scaffold
-    ├── .github/             # GitHub configuration
-    ├── .vscode/             # VS Code settings
-    ├── .opencode/           # OpenCode AI config
-    ├── .codex/              # OpenAI Codex config
-    ├── docs/                # Documentation (MkDocs)
-    └── tests/               # Test frameworks
+├── README.md                  # This file
+├── AGENTS.md                  # Detailed project guide
+├── TEMPLATE_GUIDE.md          # Template system user guide
+├── pyproject.toml             # Python project configuration
+├── uv.lock                    # Lock file for uv
+├── build.py                   # Build script
+├── build.sh                   # Build wrapper script
+├── build_config.yaml          # Build configuration
+├── build_config.yaml          # Build configuration
+├── src/                       # Source files
+│   ├── base/                 # Shared content (all targets)
+│   │   ├── agents/          # Agent definitions (no suffix)
+│   │   ├── prompts/         # Prompt templates (no suffix)
+│   │   ├── skills/          # Reusable skill modules
+│   │   └── instructions/    # GitHub instructions
+│   ├── targets/             # Target-specific content
+│   │   ├── .github/        # GitHub Copilot overrides
+│   │   ├── .opencode/      # OpenCode AI overrides
+│   │   ├── .codex/         # Codex overrides
+│   │   ├── docs/           # Documentation
+│   │   ├── tests/          # Test specifications
+│   │   ├── .vscode/        # VS Code settings
+│   │   └── AGENTS.md       # Project overview
+│   └── templates/           # Jinja2 templates
+│       └── python_test_core.md
+└── dist/                     # Generated distribution (gitignored)
+    ├── .github/             # GitHub Copilot (with suffixes)
+    ├── .opencode/           # OpenCode AI (singular folders)
+    ├── .codex/              # OpenAI Codex (no suffixes)
+    ├── docs/                # Documentation
+    ├── tests/               # Test specifications
+    └── AGENTS.md            # Project overview
 ```
 
 ## Best Practices
@@ -172,10 +235,18 @@ Contributions are welcome! Please:
 
 ## Requirements
 
-- **Python 3.8+** (for Python-specific skills)
-- **MkDocs + mkdocs-material** (for documentation)
+- **Python 3.10+** (for build system and Python-specific skills)
+- **uv** (for dependency management) - [Install uv](https://docs.astral.sh/uv/)
 - **Git** (for version control)
 - Access to your preferred AI platform (Copilot, OpenCode, Codex, or Warp)
+
+### Build System Dependencies
+
+The build system requires:
+- `jinja2>=3.1.0` - Template engine for content reuse
+- `pyyaml>=6.0` - YAML configuration parser
+
+These are automatically installed via `uv sync`.
 
 ## Platform Setup
 

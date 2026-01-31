@@ -1,0 +1,80 @@
+# Build Configuration for Agent Development Environment
+# This file defines how source files are transformed and distributed to different agent frameworks
+
+# Directory paths (relative to project root)
+templates_dir: src/templates
+base_dir: src/base
+targets_dir: src/targets
+dist_dir: dist
+
+# File extensions to process for Jinja2 template resolution
+template_extensions:
+  - .md
+  - .txt
+
+# Target configurations
+# Each target represents a different agent framework (.github, .opencode, .codex)
+targets:
+  .github:
+    # Which base folders to include (omit if folder should not be copied)
+    include_base_folders:
+      - skills
+      - agents
+      - prompts
+      - instructions
+    
+    # Folder name mappings: base_folder -> target_folder
+    # Controls where base content gets copied in the target
+    folder_mappings:
+      skills: skills
+      agents: agents
+      prompts: prompts
+      instructions: instructions
+    
+    # File suffix rules for .md files (applied to base/ files only)
+    # Format: folder_name: new_suffix (replaces .md extension)
+    # Target-specific files already have correct suffixes and are not transformed
+    file_suffix_rules:
+      prompts: ".prompt.md"
+      agents: ".agent.md"
+      instructions: ".instructions.md"
+      # skills: no rule = no suffix change (keeps .md)
+
+  .opencode:
+    include_base_folders:
+      - skills
+      - agents
+      - prompts
+      # instructions: NOT included for opencode
+    
+    folder_mappings:
+      skills: skill          # OpenCode uses singular "skill"
+      agents: agent          # OpenCode uses singular "agent"
+      prompts: command       # OpenCode uses "command" instead of "prompts"
+    
+    file_suffix_rules: {}    # No suffix changes for OpenCode
+
+  .codex:
+    include_base_folders:
+      - skills
+      - agents
+      - prompts
+      # instructions: NOT included for codex
+    
+    folder_mappings:
+      skills: skills
+      agents: agents
+      prompts: prompts
+    
+    file_suffix_rules: {}    # No suffix changes for Codex
+
+# Non-target folders in src/targets/ that go directly to dist/
+# These are copied as-is without folder/suffix transformations
+passthrough_folders:
+  - docs
+  - tests
+  - .vscode
+
+# Root-level files in src/targets/ to copy to dist/
+passthrough_files:
+  - AGENTS.md
