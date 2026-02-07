@@ -19,7 +19,7 @@ Minimum docs expectation:
 2. Ensure that the **API Reference** is updated via docstrings.
 3. If it affects certain concepts, add or update **Explanation** docs.
 4. If it affects installation or setup, update **Installation** docs.
-5. Add a short note to `docs/index.md` or a “Quickstart” section if it changes onboarding.
+5. Add a short note to `README.md` or a “Quickstart” section if it changes onboarding.
 
 ---
 
