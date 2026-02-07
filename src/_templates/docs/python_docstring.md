@@ -76,24 +76,53 @@ Question: FAQ
 
 Example:
   === "Basic usage"
-      ```py
-      from finance import fetch_prices
 
-      df = fetch_prices("AAPL", period="6mo")
-      print(df.head())
-      ```
+    The most common way to fetch the data is to call `fetch_prices` with a ticker and optional period:
+    ```py
+    from finance import fetch_prices
+
+    df = fetch_prices("AAPL", period="6mo")
+    print(df.head())
+    # Output:
+    #         date        open        high         low       close   volume
+    # 0  2024-01-01  150.00  155.00  149.00  154.00  1000000
+    # 1  2024-01-02  154.00  156.00  153.00  155.00   800000
+    # ...
+    ```
+
   === "Async usage"
-      ```py
-      import asyncio
-      from finance import fetch_prices_async  
 
-      async def main():
-          df = await fetch_prices_async("AAPL", period="6mo")
-          print(df.head())
-      asyncio.run(main())
-      ```
+    If you prefer to use the async version, you can call `fetch_prices_async` within an async context.
+
+    !!! note "Async version"
+        The async version is useful when you want to fetch data for multiple tickers concurrently or integrate with an async application.
+
+    ```py
+    import asyncio
+    from finance import fetch_prices_async  
+
+    async def main():
+        df = await fetch_prices_async("AAPL", period="6mo")
+        print(df.head())
+    asyncio.run(main())
+    # Output:
+    #         date        open        high         low       close   volume
+    # 0  2024-01-01  150.00  155.00  149.00  154.00  1000000
+    # 1  2024-01-02  154.00  156.00  153.00  155.00   800000
+    ```
 """
 ```
+
+Allowed admonition types: 
+
+- `Abstract`: A brief summary or overview of a concept or topic.
+- `Note`: General information or explanations.
+- `Tip`: Helpful tips or best practices.
+- `Warning`: Important warnings or cautions.
+- `Danger`: Critical warnings or common errors, or unexpected behavior.
+- `Info`: Additional information or context that may be useful to the reader.
+- `Success`: Positive outcomes, success stories, or examples of good practices.
+- `Example`: Code examples that illustrate a concept or usage.
 
 ## Formatting rules
 - Use triple double quotes: `"""Docstring..."""`
@@ -101,6 +130,15 @@ Example:
 - Wrap lines roughly ~88–100 chars when reasonable (don’t force ugly wrapping).
 - Prefer imperative/active voice (“Fetch prices…”, “Validate payload…”).
 - Examples must be **copy-pastable** (no pseudocode).
+
+### Formatting `Examples:`
+- Use content tabs (`=== "Title for Example"`) for multiple examples.
+- Title should summarize the example’s purpose.
+- Example should have short description (1-2 sentences) of what it demonstrates.
+- If the example demonstrates a common use case, put it first.
+- If example is focused on a specific argument or edge case, consider putting it in a separate tab with a descriptive title. Feed free to describe the case or args the example focuses in the further description of the example.
+- Use fenced code blocks with `python` or `py` language identifier.
+
 
 ## Markdown in docstrings (mkdocstrings-friendly)
 - Prefer fenced code blocks with language identifiers in `Examples:` (e.g., ```py).

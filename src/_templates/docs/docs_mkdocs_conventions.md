@@ -130,6 +130,17 @@ icon: material/emoticon-happy
 		massa, nec semper lorem quam in massa.
 ```
 
+Allowed types: 
+
+- `abstract`: A brief summary or overview of a concept or topic.
+- `note`: General information or explanations.
+- `tip`: Helpful tips or best practices.
+- `warning`: Important warnings or cautions.
+- `danger`: Critical warnings or common errors, or unexpected behavior.
+- `info`: Additional information or context that may be useful to the reader.
+- `success`: Positive outcomes, success stories, or examples of good practices.
+- `example`: Code examples that illustrate a concept or usage.
+
 #### Content tabs
 Content tabs to group and organize related content. Use them to present multiple explanations orcode examples of single component with different versions, options, or perspectives on a topic.
 ```md
