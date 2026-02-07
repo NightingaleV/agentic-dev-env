@@ -1,5 +1,5 @@
 {%- block frontmatter -%}{%- endblock frontmatter -%}
-{% block action %}
+{% block objective %}
 Review the code or files that agent/user specifies. Use a structured approach to ensure thoroughness and accuracy.
 {% endblock %}
 

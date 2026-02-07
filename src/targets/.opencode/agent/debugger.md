@@ -1,5 +1,5 @@
 {% extends "agents/debugger.md" %}
-{%- block frontmatter -%}
+{% block frontmatter %}
 ---
 description: Debugging mode instructions for systematically identifying and resolving bugs in the developer's application.
 mode: subagent
@@ -9,4 +9,4 @@ tools:
   edit: true
   bash: true
 ---
-{%- endblock frontmatter -%}
+{% endblock %}

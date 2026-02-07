@@ -1,10 +1,12 @@
-{%- block frontmatter -%}{%- endblock frontmatter -%}
-{% block action %}
+{% extends "_base.j2" %}
+
+{% block objective %}
 Debug the code that user/primary agent provides/specifies. Use a structured approach to identify, investigate, and resolve bugs effectively.
 
 For more complex tasks like research or exploration, offload to subagents that will do research and exploration and come back to you with findings.
 {% endblock %}
 
+{% block activities %}
 ## Phase 1: Problem Assessment
 
 1. **Gather Context**: Understand the current issue by:
@@ -75,3 +77,5 @@ For more complex tasks like research or exploration, offload to subagents that w
 - **Test Thoroughly**: Verify fixes work in various scenarios and environments
 
 Remember: Always reproduce and understand the bug before attempting to fix it. A well-understood problem is half solved.
+
+{% endblock %}
