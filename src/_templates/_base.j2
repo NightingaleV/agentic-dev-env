@@ -1,0 +1,87 @@
+{#- Base template for prompt engineering markdown files -#}
+{#- Blocks are ordered by importance for effective prompting -#}
+
+{#- Capture all block content into variables first -#}
+{% set _frontmatter %}{% block frontmatter %}{% endblock %}{% endset %}
+{% set _role %}{% block role %}{% endblock %}{% endset %}
+{% set _objective %}{% block objective %}{% endblock %}{% endset %}
+{% set _context %}{% block context %}{% endblock %}{% endset %}
+{% set _scope %}{% block scope %}{% endblock %}{% endset %}
+{% set _constraints %}{% block constraints %}{% endblock %}{% endset %}
+{% set _input %}{% block input %}{% endblock %}{% endset %}
+{% set _activities %}{% block activities %}{% endblock %}{% endset %}
+{% set _tools %}{% block tools %}{% endblock %}{% endset %}
+{% set _output %}{% block output %}{% endblock %}{% endset %}
+{% set _examples %}{% block examples %}{% endblock %}{% endset %}
+{% set _important %}{% block important %}{% endblock %}{% endset %}
+
+{#- Render sections conditionally -#}
+{{ _frontmatter }}
+{%- if _role | trim %}
+
+## Role
+You are acting as the following persona:
+{{ _role }}
+{%- endif %}
+{%- if _objective | trim %}
+
+## Objective
+Your goals are as follows:
+{{ _objective }}
+{%- endif %}
+{%- if _context | trim %}
+
+## Context
+Background information for this task:
+{{ _context }}
+{%- endif %}
+{%- if _scope | trim %}
+
+## Scope
+This task is bounded by the following:
+{{ _scope }}
+{%- endif %}
+{%- if _constraints | trim %}
+
+## Constraints
+Non-goals and limitations to keep in mind:
+{{ _constraints }}
+{%- endif %}
+{%- if _input | trim %}
+
+## Input
+You will be provided with the following:
+{{ _input }}
+{%- endif %}
+{%- if _activities | trim %}
+
+## Activities
+Follow these steps to complete the task:
+{{ _activities }}
+{%- endif %}
+{%- if _tools | trim %}
+
+## Tools
+You have access to the following tools:
+{{ _tools }}
+{%- endif %}
+{%- if _output | trim %}
+
+## Output
+Provide your response in the following format:
+{{ _output }}
+{%- endif %}
+{%- if _examples | trim %}
+
+## Examples
+Reference the following examples:
+{{ _examples }}
+{%- endif %}
+{%- if _important | trim %}
+
+---
+> **⚠️ CRITICAL INSTRUCTIONS**
+>
+> The following instructions are mandatory and must be followed:
+{{ _important }}
+{%- endif %}
