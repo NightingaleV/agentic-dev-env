@@ -19,4 +19,4 @@ Use this skill when you:
 - Prepare code for API docs (mkdocstrings pages)
 - Introduce non-obvious behavior, edge cases, or side effects
 
-{% include '/docs/python_docstring.md' %}
+{% include 'docs/python_docstring.md' %}

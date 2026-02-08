@@ -1,7 +1,10 @@
-{%- block frontmatter -%}{%- endblock frontmatter -%}
+{% extends "core/_base.j2" %}
+
 {% block objective %}
-Review the code or files that agent/user specifies. Use a structured approach to ensure thoroughness and accuracy.
+You are performing a **full code review** of the files specified by the user/agent.
 {% endblock %}
+
+---
 
 {% block scope %}
 **Scope rule (STRICT):**
@@ -10,8 +13,10 @@ Review the code or files that agent/user specifies. Use a structured approach to
 - If fixing properly requires edits elsewhere (tests, shared utils), propose a plan + minimal diff, but do not edit other files unless user explicitly allows it.
 {% endblock %}
 
+---
 
-# Review Requirements
+{% block requirements %}
+## Review Requirements
 When reviewing completed work, you will:
 
 1. **Plan Alignment Analysis** - If plan exists (can be provided by user or inferred from context):
@@ -52,10 +57,11 @@ When reviewing completed work, you will:
    - If you identify issues with the original plan itself, recommend plan updates
    - For implementation problems, provide clear guidance on fixes needed
    - Always acknowledge what was done well before highlighting issues
-
+{% endblock %}
 
 ---
 
+{% block activities %}
 # Step 1 — Context + Discovery (do this first)
 1. Read `${fileBasename}` fully.
 2. Identify internal dependencies and external imports for context.
@@ -69,37 +75,97 @@ When reviewing completed work, you will:
 
 ---
 
-{% block activities %}
+   {% block review_steps %}
+   # Step 2 — Run Checks (best effort, based on what’s used)
+   Use tool to run commands for checks. Prefer project runner (uv or poetry) if user utilises that. (`uv run <command>` or `poetry run <command>`):
+
+   If a command fails due to environment/tool not installed:
+   - Note it clearly.
+   - Fall back to config inspection + static reasoning.
+   - Do NOT hallucinate tool output.
+
+   # Step 3 — Understand Functionality Before Fixing
+
+   A code review is not just style-checking. Your first job is to understand what the code is **intended** to do and how it behaves in practice. Offload this task to subagents if possible.
+
+   ### 3.1 Establish intent
+   - Infer expected behavior from:
+   - function/class names, docstrings, type hints
+   - call sites and usage patterns
+   - tests (if present) and test naming
+   - configs / CLI / API contracts
+   - If intent is ambiguous, **call it out explicitly** and propose the most likely interpretation(s) before making changes.
+
+   ### 3.2 Validate behavior with a sandbox (optional)
+   If the runtime behavior is unclear, you may create a **temporary sandbox** to explore it.
+
+   **Hard rules**
+   - **Do not modify** `${fileBasename}` (or any production files) during this step.
+   - Sandbox is for **observation only**: understand behavior, edge cases, and failure modes.
+   - Keep changes isolated and reversible.
+
+   **Sandbox guidelines**
+   - Create a temporary file (e.g., `tmp_review_<component_name>.py`) that runs in the same project virtual environment.
+   - You may:
+   - import and execute functions/classes from `${fileBasename}`
+   - use small, representative inputs (can be mocked)
+   - mock or stub external dependencies (I/O, network, DB) when needed
+   - print outputs, logs, and debug info (keep it minimal and relevant)
+   - probe edge cases (nulls, empty inputs, invalid types, boundary values)
+   - Avoid:
+   - writing to real databases/services
+   - mutating real files or stateful resources
+   - relying on long-running or flaky external systems
+
+   ### 3.3 Capture findings
+   Before proposing fixes, write a short summary:
+   - “What this code does” (observed behavior)
+   - “What it probably should do” (intended behavior)
+   - key assumptions + uncertainties
+   - notable edge cases or surprising behavior
+
+   ### 3.4 Cleanup
+   Delete the sandbox file after you’re done exploring, before entering the fix loop.
+
+   {% endblock %}
 
 {% endblock %}
+
 ---
 
-
+{% block outcome %}
 # Final Step — Fix Loop (apply fixes inside the file, then re-run)
+
+Only apply fixes to the reviewed file/s (`${fileBasename}`). Do not modify other files (tests, shared utils) without explicit user approval, even if it would make the fix cleaner. If a proper fix requires changes outside the file, propose a plan and minimal diff for those changes, but do not implement them without approval.
+
 Iterate:
 1) Prioritize fixes:
    - **Critical**: security, data corruption, crashes, major typing bugs
-   - **Major**: correctness edge cases, significant maintainability issues
-   - **Minor**: style, formatting, docstrings, naming
+   - **Major**: correctness edge cases, significant maintainability issues, design suggestions
+   - **Minor**: style, formatting, docstrings, naming, small refactors based on static checks
 2) Apply safe, high-confidence fixes directly using `edit`.
    - Keep diffs minimal and targeted.
    - Don’t refactor for “beauty” unless it removes real risk/complexity.
 3) Re-run the same checks to verify improvement.
 4) Stop when:
    - checks are clean, OR
-   - remaining issues require product decisions / behavior changes (explain and propose options).
+   - remaining issues require product decisions / behavior changes (explain and propose options). Do not make behavior changes without explicit approval from the user. Do not make big refactors that require extensive changes without user approval.
+   - If you identify behavior changes that require product decisions, clearly explain the change, its implications, and propose options for how to proceed. Do not make behavior changes without explicit approval from the user.
+
+{% endblock %}
 
 ---
 
+{% block output %}
 # Output Format (STRICT)
-## Tooling Results
+## Tooling Results 
 - Commands run
 - Key findings (Critical/Major/Minor)
 - What you couldn’t run (why)
 
-## Patch Summary (file-only)
-- What you changed
-- Re-run results after patch
+## Patch Summary (if applicable, per file-only) 
+- What you changed if any
+- Re-run results after patch if applicable
 
 ## Review Notes
 ### Critical
@@ -111,4 +177,5 @@ Iterate:
 
 
 ## Follow-ups
-- Only questions needed for risky/ambiguous behavior changes
+- Questions / Clarifications for the user in order to complete the review.
+{% endblock %}

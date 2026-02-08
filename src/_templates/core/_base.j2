@@ -6,11 +6,13 @@
 {%- set _objective %}{% block objective %}{% endblock %}{% endset -%}
 {%- set _context %}{% block context %}{% endblock %}{% endset -%}
 {%- set _scope %}{% block scope %}{% endblock %}{% endset -%}
+{%- set _requirements %}{% block requirements %}{% endblock %}{% endset -%}
 {%- set _constraints %}{% block constraints %}{% endblock %}{% endset -%}
 {%- set _input %}{% block input %}{% endblock %}{% endset -%}
 {%- set _activities %}{% block activities %}{% endblock %}{% endset -%}
-{%- set _tools %}{% block tools %}{% endblock %}{% endset -%}
+{%- set _outcome %}{% block outcome %}{% endblock %}{% endset -%}
 {%- set _output %}{% block output %}{% endblock %}{% endset -%}
+{%- set _tools %}{% block tools %}{% endblock %}{% endset -%}
 {%- set _examples %}{% block examples %}{% endblock %}{% endset -%}
 {%- set _important %}{% block important %}{% endblock %}{% endset -%}
 {#- Render sections conditionally -#}
@@ -27,17 +29,17 @@ You are acting as the following persona:
 Your goals are as follows:
 {{ _objective }}
 {%- endif %}
-{%- if _context | trim %}
-
-# Context
-Background information for this task:
-{{ _context }}
-{%- endif %}
 {%- if _scope | trim %}
 
 # Scope
 This task is bounded by the following:
 {{ _scope }}
+{%- endif %}
+{%- if _requirements | trim %}
+
+# Requirements
+Follow these requirements to ensure success:
+{{ _requirements }}
 {%- endif %}
 {%- if _constraints | trim %}
 
@@ -56,6 +58,12 @@ You will be provided with the following:
 # Activities
 Follow these steps to complete the task:
 {{ _activities }}
+{%- endif %}
+{%- if _outcome | trim %}
+
+# Result
+Follow outcome is expected:
+{{ _outcome }}
 {%- endif %}
 {%- if _tools | trim %}
 
@@ -82,4 +90,10 @@ Reference the following examples:
 >
 > The following instructions are mandatory and must be followed:
 {{ _important }}
+{%- endif %}
+{%- if _context | trim %}
+
+# Context
+Background information for this task:
+{{ _context }}
 {%- endif %}

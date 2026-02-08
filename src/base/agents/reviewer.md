@@ -1,11 +1,16 @@
-{% extends "prompts/code-full-review.md" %}
+{% extends "review/_base_review.md" %}
 
 {% block objective %}
 You are performing a **full code review** of the files specified by the user/agent.
 {% endblock %}
 
+---
 
 {% block scope %}
-## Review Scope
-Include in the review the files user/agent specifies. The user might ask you to review specific files only, or provide a diff base (branch name / commit hash / tag) to review changes since then. You can read and see other files (dependencies, docs) for context, but only modify the specified files.
+**Scope rule (STRICT):**
+- You may ONLY modify reviewed file/s (`${fileBasename}`).
+- You may READ other files (configs, imports, interfaces) for context.
+- If fixing properly requires edits elsewhere (tests, shared utils), propose a plan + minimal diff, but do not edit other files unless user explicitly allows it.
 {% endblock %}
+
+---

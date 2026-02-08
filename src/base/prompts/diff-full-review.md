@@ -1,4 +1,4 @@
-{% extends "review/_code_review.md" %}
+{% extends "prompts/code-full-review.md" %}
 
 {% block objective %}
 Review the changes made in project files as per the diff provided. For each changed file, perform a comprehensive code review focusing on correctness, style, performance, security, and test coverage. Provide constructive feedback and suggest improvements where necessary.
